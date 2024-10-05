@@ -1,66 +1,69 @@
-import React, {Component}  from "react";
-import { doLogin } from "../../services/login-service";
+import React, { useState }  from "react";
+import './LoginComponent.css';
 
-class LoginComponent extends Component {
-    constructor(props) {
-        super(props);
+const LoginComponent = ({ onLogin }) => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-        this.state = {
-            Username: '',
-            Password: ''
-        }
-
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-
-        // button handlers
-        this.handleLoginClick = this.handleLoginClick.bind(this);
+    const handleLogin = (event) => {
+        event.preventDefault();
+        onLogin({ username, password })
     }
 
-    handleUsernameChange(event) {
-        this.setState({ Username: event.target.value });
-    }
+    return (
+            <div id="main-wrapper" class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-xl-10">
+                        <div class="card border-0">
+                            <div class="card-body p-0">
+                                <div class="row no-gutters">
+                                    <div class="col-lg-6">
+                                        <div class="p-5">
+                                            <div class="mb-5">
+                                                <h3 class="h4 font-weight-bold text-theme">Login</h3>
+                                            </div>
 
-    handlePasswordChange(event) {
-        this.setState({ Password: event.target.value });
-    }
+                                            <h6 class="h5 mb-0">Welcome back!</h6>
+                                            <p class="text-muted mt-2 mb-3">Enter your usernameand password to access admin panel.</p>
 
-    handleLoginClick() {
-        let response = doLogin(this.state.Username, this.state.Password);
-        console.log(response);
-    }
+                                            <form onSubmit={handleLogin}>
+                                                <div class="form-group mb-3">
+                                                    <label for="username">Username</label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" value={username} onChange={(e) => { setUsername(e.target.value) }}/>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control" id="password" value={password} onChange={(e) => { setPassword(e.target.value) }}/>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <a href="#l" class="forgot-link float-right text-primary">Forgot password?</a>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <button type="submit" class="btn btn-theme float-end">Login</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
 
-    render() {
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-6">
-
-                    </div>
-                    <div className="col-6">
-                        <div className="mb-3">
-                            <label htmlFor="username" className="form-label">Username</label>
-                            <input id="username" className="form-control" value={this.state.Username} onChange={this.handleUsernameChange}/>
+                                    <div class="col-lg-6 d-none d-lg-inline-block">
+                                        <div class="account-block rounded-right">
+                                            <div class="overlay rounded-right"></div>
+                                            <div class="account-testimonial">
+                                                <h4 class="text-white mb-4">GateKeeper</h4>
+                                                <p class="lead text-white">"Best investment i made for a long time. Can only recommend it for other users."</p>
+                                                <p>- Admin User</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password</label>
-                            <input 
-                                id="password" 
-                                className="form-control" 
-                                value={this.state.Password} 
-                                onChange={this.handlePasswordChange}
-                                type="password"/>
-                        </div>
-
-                        <button 
-                            className="btn btn-success float-end"
-                            onClick={this.handleLoginClick}>Login</button>
                     </div>
                 </div>
             </div>
-        )
-    }
+    );
 }
 
 export default LoginComponent;
